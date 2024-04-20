@@ -2,7 +2,4 @@ networkx
 PyQt5
 
 
-nodes = self.graph_manager.get_nodes()
-        edges = self.graph_manager.get_edges()
-        print('Nodes:', nodes)
-        print('Edges:', edges)
+
