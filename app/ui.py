@@ -1,8 +1,10 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLineEdit, QLabel, QGridLayout, QInputDialog, QFileDialog
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLineEdit, QLabel, QGridLayout, QInputDialog
+from PyQt5.QtCore import Qt
 from graph import GraphManager
 import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
+import csv
 
 class GraphUI(QWidget):
     def __init__(self):
@@ -12,7 +14,7 @@ class GraphUI(QWidget):
         self.init_ui()
 
     def init_ui(self):
-        self.setWindowTitle('Graph Application')
+        self.setWindowTitle('FYP DEMO')
 
         # Main layout
         layout = QVBoxLayout()
@@ -147,38 +149,38 @@ class GraphUI(QWidget):
         plt.show()
 
     def show_mm_graph(self):
-        image_path = "pre-built/mm/graph.png"
+        image_path = "pre-built/mm/Graph.png"
 
         # Load the PNG image using matplotlib
         img = mpimg.imread(image_path)
 
         # Display the image using matplotlib
         plt.imshow(img)
-        plt.title('Custom Graph Image')
+        plt.title('MEDIA-MICROSERFVICE')
         plt.axis('off')  # Hide the axis if you want
         plt.show()
 
     def show_rs_graph(self):
-        image_path = "pre-built/rs/graph.png"
+        image_path = "pre-built/rs/Graph.png"
 
         # Load the PNG image using matplotlib
         img = mpimg.imread(image_path)
 
         # Display the image using matplotlib
         plt.imshow(img)
-        plt.title('Custom Graph Image')
+        plt.title('ROBOT SHOP')
         plt.axis('off')  # Hide the axis if you want
         plt.show()
 
     def show_tt_graph(self):
-        image_path = "pre-built/tt/graph.png"
+        image_path = "pre-built/tt/Graph.png"
 
         # Load the PNG image using matplotlib
         img = mpimg.imread(image_path)
 
         # Display the image using matplotlib
         plt.imshow(img)
-        plt.title('Custom Graph Image')
+        plt.title('TRAIN TICKET')
         plt.axis('off')  # Hide the axis if you want
         plt.show()
 
