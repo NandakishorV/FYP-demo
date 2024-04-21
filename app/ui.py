@@ -56,6 +56,18 @@ class GraphUI(QWidget):
         show_graph_button.clicked.connect(self.show_graph)
         layout.addWidget(show_graph_button)
 
+        show_mmgraph_button = QPushButton('Show Media Microservices graph')
+        show_mmgraph_button.clicked.connect(self.show_mm)
+        layout.addWidget(show_mmgraph_button)
+
+        show_rsgraph_button = QPushButton('Show Robot shop graph')
+        show_rsgraph_button.clicked.connect(self.show_rs)
+        layout.addWidget(show_rsgraph_button)
+
+        show_ttgraph_button = QPushButton('Show Train ticket graph')
+        show_ttgraph_button.clicked.connect(self.show_tt)
+        layout.addWidget(show_ttgraph_button)
+
         # Save Features Button
         save_features_button = QPushButton('Save Features to CSV')
         save_features_button.clicked.connect(self.save_features_to_csv)
@@ -172,3 +184,88 @@ class GraphUI(QWidget):
 
         print("Node features saved to node.csv")
         print("Edge features saved to edges.csv")
+
+
+
+        def show_mm(self):
+        # Get the graph
+        graph = self.graph_manager.get_graph()
+
+        # Draw the graph using matplotlib and networkx
+        pos = nx.spring_layout(graph)  # Position the nodes using spring layout
+
+        # Draw nodes
+        nx.draw_networkx_nodes(graph, pos, node_color='lightblue', node_size=500)
+
+        # Draw edges
+        nx.draw_networkx_edges(graph, pos)
+
+        # Draw node labels
+        nx.draw_networkx_labels(graph, pos, font_size=10)
+
+        # Retrieve edge attributes and draw edge labels
+        edge_labels = nx.get_edge_attributes(graph, None)
+        nx.draw_networkx_edge_labels(graph, pos, edge_labels=edge_labels)
+        nodes = self.graph_manager.get_nodes()
+        edges = self.graph_manager.get_edges()
+        print('Nodes:', nodes)
+        print('Edges:', edges)
+        # Show the plot
+        plt.title('Graph')
+        plt.show()
+
+
+        def show_rs(self):
+        # Get the graph
+        graph = self.graph_manager.get_graph()
+
+        # Draw the graph using matplotlib and networkx
+        pos = nx.spring_layout(graph)  # Position the nodes using spring layout
+
+        # Draw nodes
+        nx.draw_networkx_nodes(graph, pos, node_color='lightblue', node_size=500)
+
+        # Draw edges
+        nx.draw_networkx_edges(graph, pos)
+
+        # Draw node labels
+        nx.draw_networkx_labels(graph, pos, font_size=10)
+
+        # Retrieve edge attributes and draw edge labels
+        edge_labels = nx.get_edge_attributes(graph, None)
+        nx.draw_networkx_edge_labels(graph, pos, edge_labels=edge_labels)
+        nodes = self.graph_manager.get_nodes()
+        edges = self.graph_manager.get_edges()
+        print('Nodes:', nodes)
+        print('Edges:', edges)
+        # Show the plot
+        plt.title('Graph')
+        plt.show()
+
+
+        def show_tt(self):
+        # Get the graph
+        graph = self.graph_manager.get_graph()
+
+        # Draw the graph using matplotlib and networkx
+        pos = nx.spring_layout(graph)  # Position the nodes using spring layout
+
+        # Draw nodes
+        nx.draw_networkx_nodes(graph, pos, node_color='lightblue', node_size=500)
+
+        # Draw edges
+        nx.draw_networkx_edges(graph, pos)
+
+        # Draw node labels
+        nx.draw_networkx_labels(graph, pos, font_size=10)
+
+        # Retrieve edge attributes and draw edge labels
+        edge_labels = nx.get_edge_attributes(graph, None)
+        nx.draw_networkx_edge_labels(graph, pos, edge_labels=edge_labels)
+        nodes = self.graph_manager.get_nodes()
+        edges = self.graph_manager.get_edges()
+        print('Nodes:', nodes)
+        print('Edges:', edges)
+        # Show the plot
+        plt.title('Graph')
+        plt.show()
