@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLineEdit, QLabel, QGridLayout, QInputDialog
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLineEdit, QLabel, QGridLayout, QInputDialog, QFileDialog,  QTableWidget, QTableWidgetItem
 from PyQt5.QtCore import Qt
 from graph import GraphManager
 import networkx as nx
@@ -75,6 +75,10 @@ class GraphUI(QWidget):
         save_features_button = QPushButton('Save Features to CSV')
         save_features_button.clicked.connect(self.save_features_to_csv)
         layout.addWidget(save_features_button)
+
+        open_csv_button = QPushButton('Open CSV')
+        open_csv_button.clicked.connect(self.open_csv)
+        layout.addWidget(open_csv_button)
 
         # Set the layout
         self.setLayout(layout)
@@ -223,3 +227,63 @@ class GraphUI(QWidget):
 
         print("Node features saved to node.csv")
         print("Edge features saved to edges.csv")
+
+    def open_csv(self):
+        # Prompt the user to select a CSV file to open
+        csv_file_path, _ = QFileDialog.getOpenFileName(self, 'Open CSV', '', 'CSV Files (*.csv)')
+
+        # Check if a file path was provided
+        if not csv_file_path:
+            print("No file path provided")
+            return
+
+        print(f"CSV file selected: {csv_file_path}")
+
+        # Create a QTableWidget to display the CSV data
+        table_widget = QTableWidget()
+
+        try:
+            # Open the CSV file and read its contents
+            with open(csv_file_path, newline='') as csv_file:
+                csv_reader = csv.reader(csv_file)
+                
+                # Read the header row to determine the number of columns
+                header = next(csv_reader)
+                if header is None:
+                    print("Header is empty or not found")
+                    return
+                
+                num_columns = len(header)
+                print(f"Header: {header}")
+                print(f"Number of columns: {num_columns}")
+                
+                # Set up the table widget with the correct number of rows and columns
+                table_widget.setColumnCount(num_columns)
+                table_widget.setHorizontalHeaderLabels(header)
+                
+                # Read the data rows and populate the table widget
+                for row_index, row_data in enumerate(csv_reader):
+                    print(f"Row {row_index}: {row_data}")
+                    table_widget.insertRow(row_index)
+                    for col_index, col_value in enumerate(row_data):
+                        item = QTableWidgetItem(col_value)
+                        table_widget.setItem(row_index, col_index, item)
+
+            # Adjust the size of the table widget's columns to fit the content
+            table_widget.resizeColumnsToContents()
+            # Show the pop-up window
+
+            csv_window = QWidget()
+            csv_window.setWindowTitle('CSV Data')
+
+            # Create a layout for the window and add the QTableWidget
+            layout = QVBoxLayout()
+            layout.addWidget(table_widget)
+            csv_window.setLayout(layout)
+
+            # Show the new window
+            csv_window.show()
+
+        except Exception as e:
+            print(f"An error occurred: {e}")
+
