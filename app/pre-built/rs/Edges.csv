@@ -1,0 +1,15 @@
+Source,Destination,Self,Network,Calls
+nginx-web,payment,34.0,0.0,1
+payment,user,6.0,6.5,2
+user,rs-mongodb,5.33,0.0,6
+payment,cart,2.0,4.0,1
+nginx-web,shipping,449.0,0.0,1
+shipping,cart,16.0,78.0,1
+shipping,rs-mysql-db,30.0,0.0,4
+ratings,rs-mysql-db,0.22,0.0,18
+nginx-web,cart,7.5,0.0,2
+cart,catalogue,4.5,4.0,2
+catalogue,rs-mongodb,2.5,0.0,6
+nginx-web,ratings,7.0,1.0,1
+ratings,ratings,0.2,0.0,10
+catalogue,rs-mongodb,1.0,0.0,1

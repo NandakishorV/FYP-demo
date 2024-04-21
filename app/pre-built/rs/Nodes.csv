@@ -1,0 +1,10 @@
+Service,d_cvss,c_cvss,LOC,Bugs,Vulnerability,Code Smells
+user,8.0,8.0,8,0,0,0
+cart,8.0,9.5,8,0,0,0
+shipping,4.5,9.5,180,0,1,1
+payment,0.0,4.5,164,0,1,2
+catalogue,0.0,4.5,8,0,0,0
+nginx-web,0.0,0.0,513,11,0,1
+ratings,0.0,0.0,436,1,0,8
+rs-mongodb,0.0,0.0,2,0,0,0
+rs-mysql-db,0.0,0.0,9,0,1,0
