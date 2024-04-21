@@ -1,0 +1,13 @@
+Service,Code smells,Cyclomatic Complexity,Duplicated LOC,Duplicated Blocks,LOC
+cast-info-service,17,128,204,22,463
+compose-review-service,40,274,846,68,942
+movie-id-service,18,121,272,27,422
+movie-info-service,28,209,333,37,745
+movie-review-service,18,128,241,29,467
+plot-service,17,120,213,23,422
+rating-service,9,62,179,18,229
+review-storage-service,16,118,203,21,428
+text-service,8,60,238,14,217
+unique-id-service,8,56,171,13,205
+user-review-service,16,124,240,30,467
+user-service,43,313,582,62,1049

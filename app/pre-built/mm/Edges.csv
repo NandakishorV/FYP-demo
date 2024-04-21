@@ -1,0 +1,19 @@
+Source,Destination,Average Duration,Delay,Count
+cast-info-service,cast-info-service,450.76,118241.56,50
+user-service,user-service,3912.4921875,1044.3984375,1280
+compose-review-service,text-service,4342.208333333333,1404.475,1200
+compose-review-service,unique-id-service,3802.83,3214.41,1000
+compose-review-service,movie-id-service,5064.73,1435.975,2000
+compose-review-service,rating-service,3616.3,3603.7066666666665,1500
+rating-service,movie-id-service,5734.112,1350.1,2500
+compose-review-service,user-service,5320.183333333333,1228.5055555555555,1800
+movie-review-service,movie-review-service,1292.76,5649.28,1500
+movie-review-service,compose-review-service,3290.38,3929.9,2000
+movie-id-service,movie-id-service,5000.833333333333,1383.3478260869565,1380
+review-storage-service,review-storage-service,454.5,5757.14,500
+review-storage-service,compose-review-service,3290.38,3929.9,1000
+rating-service,rating-service,2703.7,2946.92,500
+user-review-service,user-review-service,1181.7,5630.68,1500
+user-review-service,compose-review-service,3290.38,3929.9,2000
+movie-info-service,movie-info-service,1277.76,66834.96,50
+plot-service,plot-service,582.92,91031.24,50
