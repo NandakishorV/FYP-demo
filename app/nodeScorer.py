@@ -11,6 +11,8 @@ import random
 import networkx as nx
 import matplotlib.pyplot as plt
 
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 # Set random seed for reproducibility
 seed = 42
 torch.manual_seed(seed)
@@ -52,14 +54,14 @@ class NodeScorer(nn.Module):
     
 def initializing(nodes_df,edges_df):
   # Mapping node names to indices
-  node_name_to_index = {name: index for index, name in enumerate(nodes_df['Node'])}
+  node_name_to_index = {name: index for index, name in enumerate(nodes_df['Service'])}
 
   # Convert node features to PyTorch tensor
-  node_features = torch.tensor(nodes_df.drop(columns=['Node']).values, dtype=torch.float)
+  node_features = torch.tensor(nodes_df.drop(columns=['Service']).values, dtype=torch.float)
   edge_indices = torch.tensor(
       [
           [node_name_to_index[child], node_name_to_index[parent]]
-          for parent, child in zip(edges_df['Source'], edges_df['Target'])
+          for parent, child in zip(edges_df['Source'], edges_df['Destination'])
       ],
       dtype=torch.long
   )
@@ -70,8 +72,8 @@ def initializing(nodes_df,edges_df):
 
 def saveAsCSV(nodes_df,scores,filename):
   scores = scores.detach().cpu().numpy().tolist()
-  df = pd.DataFrame({'Node': nodes_df['Node'], 'Score': scores})
-  df.to_excel(filename, index=False)
+  df = pd.DataFrame({'Service': nodes_df['Service'], 'Score': scores})
+  df.to_csv(filename, index=False)
 
 def score_nodes(node_file, edge_file):
     nodes_df = pd.read_csv(node_file)
@@ -79,5 +81,12 @@ def score_nodes(node_file, edge_file):
     graph_data = initializing(nodes_df,edges_df)
     model = NodeScorer(node_input_dim=graph_data.num_node_features, hidden_dim=16, output_dim=8)
     scores, x = model(graph_data)
+    min_val = scores.min()
+    max_val = scores.max()
+    # Min-max scaling
+    scaled_scores = (scores - min_val) / (max_val - min_val)
+    scaled_scores = 100 * scaled_scores
 
-    saveAsCSV(nodes_df,scores,'score.csv')
+    saveAsCSV(nodes_df,scaled_scores,'score.csv')
+
+score_nodes("pre-built/mm/Nodes.csv","pre-built/mm/Edges.csv")

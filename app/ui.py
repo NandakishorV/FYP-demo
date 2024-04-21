@@ -1,10 +1,11 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLineEdit, QLabel, QGridLayout, QInputDialog, QFileDialog,  QTableWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QLineEdit, QLabel, QGridLayout, QInputDialog, QFileDialog,  QTableWidget, QTableWidgetItem, QDialog, QHBoxLayout
 from PyQt5.QtCore import Qt
 from graph import GraphManager
 import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import csv
+import nodeScorer
 
 class GraphUI(QWidget):
     def __init__(self):
@@ -79,6 +80,10 @@ class GraphUI(QWidget):
         open_csv_button = QPushButton('Open CSV')
         open_csv_button.clicked.connect(self.open_csv)
         layout.addWidget(open_csv_button)
+
+        score_nodes_button = QPushButton('Score nodes')
+        score_nodes_button.clicked.connect(self.show_score_buttons)
+        layout.addWidget(score_nodes_button)
 
         # Set the layout
         self.setLayout(layout)
@@ -193,14 +198,14 @@ class GraphUI(QWidget):
         graph = self.graph_manager.get_graph()
 
         # Save node features to node.csv
-        with open('csv/nodes.csv', 'w', newline='') as node_csv:
+        with open('csv/Nodes.csv', 'w', newline='') as node_csv:
             node_writer = csv.writer(node_csv)
 
             # Convert NodeDataView to list and get the first node and its features
             nodes_data = list(graph.nodes(data=True))
             if nodes_data:
                 first_node_id, first_node_features = nodes_data[0]
-                column_headers = ['nodeid'] + list(first_node_features.keys())
+                column_headers = ['Service'] + list(first_node_features.keys())
                 node_writer.writerow(column_headers)
 
                 # Write nodes data
@@ -209,7 +214,7 @@ class GraphUI(QWidget):
                     node_writer.writerow(row)
 
         # Save edge features to edges.csv
-        with open('csv/edges.csv', 'w', newline='') as edge_csv:
+        with open('csv/Edges.csv', 'w', newline='') as edge_csv:
             edge_writer = csv.writer(edge_csv)
 
             # Convert EdgeDataView to list and get the first edge and its features
@@ -217,7 +222,7 @@ class GraphUI(QWidget):
             print(edges_data)
             if edges_data:
                 source, destination, first_edge_features = edges_data[0]
-                column_headers = ['source', 'destination'] + list(first_edge_features.keys())
+                column_headers = ['Source', 'Destination'] + list(first_edge_features.keys())
                 edge_writer.writerow(column_headers)
 
                 # Write edges data
@@ -287,3 +292,37 @@ class GraphUI(QWidget):
         except Exception as e:
             print(f"An error occurred: {e}")
 
+    def show_score_buttons(self):
+        # Create a new dialog for the score buttons
+        dialog = QDialog(self)
+        dialog.setWindowTitle('Select graph')
+
+        # Create a layout for the dialog
+        dialog_layout = QHBoxLayout()
+
+        # Create buttons b1, b2, b3, and b4
+        b1_button = QPushButton('Media-microservices')
+        b1_button.clicked.connect(lambda : nodeScorer.score_nodes("pre-built/mm/Nodes.csv","pre-built/mm/Edges.csv"))
+        dialog_layout.addWidget(b1_button)
+
+        b2_button = QPushButton('Robot shop')
+        b2_button.clicked.connect(lambda : nodeScorer.score_nodes("pre-built/rs/Nodes.csv","pre-built/rs/Edges.csv"))
+        dialog_layout.addWidget(b2_button)
+
+        b3_button = QPushButton('Train ticket')
+        b3_button.clicked.connect(lambda : nodeScorer.score_nodes("pre-built/tt/Nodes.csv","pre-built/tt/Edges.csv"))
+        dialog_layout.addWidget(b3_button)
+
+        b4_button = QPushButton('Custom graph')
+        b4_button.clicked.connect(lambda : nodeScorer.score_nodes("pre-built/csv/Nodes.csv","pre-built/rs/Edges.csv"))
+        dialog_layout.addWidget(b4_button)
+
+        # Set the dialog layout
+        dialog.setLayout(dialog_layout)
+
+        # Show the dialog
+        dialog.exec_()
+
+    def on_score_button_clicked(self, button_label):
+        # Print which button was clicked
+        print(f'Button {button_label} clicked!')
